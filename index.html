@@ -78,30 +78,9 @@
       document.addEventListener("DOMContentLoaded", () => {
         loadPages();
         loadUpdates();
-        updateVisitCount();
       });
-
-      function updateVisitCount() {
-        const counter = document.getElementById("visit-count");
-        if (!counter) return;
-        try {
-          const storageKey = "mywebpage_visit_count";
-          const countedKey = "mywebpage_visit_counted";
-          const currentValue = Number(localStorage.getItem(storageKey)) || 0;
-          const alreadyCounted = sessionStorage.getItem(countedKey) === "true";
-          const nextValue = alreadyCounted ? currentValue : currentValue + 1;
-          if (!alreadyCounted) {
-            localStorage.setItem(storageKey, nextValue);
-            sessionStorage.setItem(countedKey, "true");
-          }
-          counter.textContent = `このページの訪問回数: ${nextValue}回`;
-        } catch (error) {
-          counter.textContent = "訪問回数を記録できませんでした。";
-        }
-      }
     </script>
     <footer>
-      <p id="visit-count">訪問回数を読み込んでいます…</p>
       <p>© 2026 いんふぱうのページ | 作成者: いんふぱう</p>
       <p><a href="https://github.com/InfinitePower-ri" target="_blank" rel="noopener">GitHub</a> | <a href="https://x.com/InftyPow60455/" target="_blank" rel="noopener">お問い合わせ(X)</a></p>
     </footer>
