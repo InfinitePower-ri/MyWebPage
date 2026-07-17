@@ -7,9 +7,8 @@
   <body>
     <h1>いんふぱうのページ</h1>
     <p>いんふぱうのページへようこそ</p>
-    <ul>
-      <li><a href="bve/bve.html">BVE</a></li>
-      <li><a href="math/math.html">数学</a></li>
+    <ul id="page-list">
+      <li>ページ概要を読み込んでいます…</li>
     </ul>
     <section>
       <h2>自己紹介</h2>
@@ -31,6 +30,29 @@
       </ul>
     </section>
     <script>
+      async function loadPages() {
+        const list = document.getElementById("page-list");
+        try {
+          const response = await fetch("pages.json");
+          if (!response.ok) {
+            throw new Error("ページデータが読み込めませんでした。");
+          }
+          const pages = await response.json();
+          if (!Array.isArray(pages) || pages.length === 0) {
+            list.innerHTML = "<li>ページ情報はまだありません。</li>";
+            return;
+          }
+          list.innerHTML = pages
+            .map(
+              (page) =>
+                `<li><a href="${page.href}">${page.title}</a><p>${page.description}</p></li>`
+            )
+            .join("");
+        } catch (error) {
+          list.innerHTML = `<li>${error.message}</li>`;
+        }
+      }
+
       async function loadUpdates() {
         const list = document.getElementById("update-list");
         try {
@@ -50,6 +72,7 @@
           list.innerHTML = `<li>${error.message}</li>`;
         }
       }
+      loadPages();
       loadUpdates();
     </script>
   </body>
