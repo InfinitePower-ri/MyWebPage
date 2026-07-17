@@ -1,0 +1,54 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>いんふぱうのページ</title>
+  </head>
+  <body>
+    <h1>いんふぱうのページ</h1>
+    <p>いんふぱうのページへようこそ</p>
+    <ul>
+      <li><a href="bve.html">BVE(準備中)</a></li>
+      <li><a href="math.html">数学(準備中)</a></li>
+    </ul>
+    <section>
+      <h2>自己紹介</h2>
+      <p>こんにちは、いんふぱうです。好きなことをこのサイトにまとめています。</p>
+      <p>将来的には、もっと多くのコンテンツをこのページに追加していきます。</p>
+    </section>
+    <section>
+      <h2>SNS</h2>
+      <ul>
+        <li><a href="https://x.com/InftyPow60455/" target="_blank" rel="noopener">X(旧Twitter)</a></li>
+        <li><a href="https://github.com/InfinitePower-ri" target="_blank" rel="noopener">GitHub</a></li>
+      </ul>
+    </section>
+    <section>
+      <h2>更新履歴</h2>
+      <ul id="update-list">
+        <li>更新履歴を読み込んでいます…</li>
+      </ul>
+    </section>
+    <script>
+      async function loadUpdates() {
+        const list = document.getElementById("update-list");
+        try {
+          const response = await fetch("updates.json");
+          if (!response.ok) {
+            throw new Error("更新履歴データが読み込めませんでした。");
+          }
+          const updates = await response.json();
+          if (!Array.isArray(updates) || updates.length === 0) {
+            list.innerHTML = "<li>更新履歴はまだありません。</li>";
+            return;
+          }
+          list.innerHTML = updates
+            .map((item) => `<li>${item.date}: ${item.text}</li>`)
+            .join("");
+        } catch (error) {
+          list.innerHTML = `<li>${error.message}</li>`;
+        }
+      }
+      loadUpdates();
+    </script>
+  </body>
+</html>
