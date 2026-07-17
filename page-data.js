@@ -2,7 +2,7 @@ async function syncPageContent() {
   const pathname = window.location.pathname.replace(/\\/g, "/");
   const segments = pathname.split("/").filter(Boolean);
   const pagePath = segments.slice(-2).join("/");
-  const dataUrl = new URL("../pages.json", document.baseURI).href;
+  const dataUrl = new URL("../pages.json", window.location.href).href;
   try {
     const response = await fetch(dataUrl);
     if (!response.ok) {
@@ -15,6 +15,7 @@ async function syncPageContent() {
       if (description) {
         description.textContent = "ページ情報が見つかりませんでした。";
       }
+      console.warn(`page-data.js: no page entry found for ${pagePath}`);
       return;
     }
     document.title = page.title;
@@ -34,4 +35,4 @@ async function syncPageContent() {
   }
 }
 
-syncPageContent();
+document.addEventListener("DOMContentLoaded", syncPageContent);
