@@ -83,9 +83,14 @@
         if (!counter) return;
         try {
           const storageKey = "mywebpage_visit_count";
+          const countedKey = "mywebpage_visit_counted";
           const currentValue = Number(localStorage.getItem(storageKey)) || 0;
-          const nextValue = currentValue + 1;
-          localStorage.setItem(storageKey, nextValue);
+          const alreadyCounted = sessionStorage.getItem(countedKey) === "true";
+          const nextValue = alreadyCounted ? currentValue : currentValue + 1;
+          if (!alreadyCounted) {
+            localStorage.setItem(storageKey, nextValue);
+            sessionStorage.setItem(countedKey, "true");
+          }
           counter.textContent = `このページの訪問回数: ${nextValue}回`;
         } catch (error) {
           counter.textContent = "訪問回数を記録できませんでした。";
