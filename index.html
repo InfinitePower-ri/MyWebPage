@@ -32,8 +32,9 @@
     <script>
       async function loadPages() {
         const list = document.getElementById("page-list");
+        const pagesUrl = new URL("pages.json", document.baseURI).href;
         try {
-          const response = await fetch("pages.json");
+          const response = await fetch(pagesUrl);
           if (!response.ok) {
             throw new Error("ページデータが読み込めませんでした。");
           }
@@ -55,8 +56,9 @@
 
       async function loadUpdates() {
         const list = document.getElementById("update-list");
+        const updatesUrl = new URL("updates.json", document.baseURI).href;
         try {
-          const response = await fetch("updates.json");
+          const response = await fetch(updatesUrl);
           if (!response.ok) {
             throw new Error("更新履歴データが読み込めませんでした。");
           }
@@ -72,6 +74,7 @@
           list.innerHTML = `<li>${error.message}</li>`;
         }
       }
+
       document.addEventListener("DOMContentLoaded", () => {
         loadPages();
         loadUpdates();
