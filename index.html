@@ -72,9 +72,11 @@
           list.innerHTML = `<li>${error.message}</li>`;
         }
       }
-      loadPages();
-      loadUpdates();
-      updateVisitCount();
+      document.addEventListener("DOMContentLoaded", () => {
+        loadPages();
+        loadUpdates();
+        updateVisitCount();
+      });
 
       function updateVisitCount() {
         const counter = document.getElementById("visit-count");
